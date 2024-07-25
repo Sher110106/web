@@ -1,6 +1,6 @@
 'use client'
 
-import React, { useCallback, useEffect, useState } from 'react'
+import React, { Suspense, useCallback, useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
 import { useRouter, useSearchParams } from 'next/navigation'
 
@@ -16,7 +16,7 @@ type FormData = {
   token: string
 }
 
-export const ResetPasswordForm: React.FC = () => {
+const ResetPasswordForm: React.FC = () => {
   const [error, setError] = useState('')
   const { login } = useAuth()
   const router = useRouter()
@@ -49,7 +49,7 @@ export const ResetPasswordForm: React.FC = () => {
         // Automatically log the user in after they successfully reset password
         await login({ email: json.user.email, password: data.password })
 
-        // Redirect them to `/account` with success message in URL
+        // Redirect them to /account with success message in URL
         router.push('/account?success=Password reset successfully.')
       } else {
         setError('There was a problem while resetting your password. Please try again later.')
@@ -58,10 +58,8 @@ export const ResetPasswordForm: React.FC = () => {
     [router, login],
   )
 
-  // when Next.js populates token within router,
-  // reset form with new token value
   useEffect(() => {
-    reset({ token: token || undefined })
+    reset({ token: token || '' })
   }, [reset, token])
 
   return (
@@ -83,5 +81,13 @@ export const ResetPasswordForm: React.FC = () => {
         className={classes.submit}
       />
     </form>
+  )
+}
+
+export default function ResetPasswordFormWrapper() {
+  return (
+    <Suspense fallback={<div>Loading...</div>}>
+      <ResetPasswordForm />
+    </Suspense>
   )
 }

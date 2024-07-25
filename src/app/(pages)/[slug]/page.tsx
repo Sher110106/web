@@ -82,7 +82,7 @@ export async function generateMetadata({ params: { slug = 'home' } }): Promise<M
       draft: isDraftMode,
     })
   } catch (error) {
-      console.log(error);
+    console.log(error)
   }
 
   if (!page) {

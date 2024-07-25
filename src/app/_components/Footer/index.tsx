@@ -28,11 +28,7 @@ export async function Footer() {
       <Gutter className={classes.wrap}>
         <Link href="/">
           <picture>
-            <img
-              className={classes.logo}
-              alt="Payload Logo"
-              src="/logo.png"
-            />
+            <img className={classes.logo} alt="Payload Logo" src="/logo.png" />
           </picture>
         </Link>
         <nav className={classes.nav}>
